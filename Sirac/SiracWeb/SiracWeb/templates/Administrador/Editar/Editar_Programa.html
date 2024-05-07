@@ -1,0 +1,38 @@
+{% extends 'Administrador/base_administrador.html' %}
+{% load static %}
+
+{% block title %}SIRAC - Editar Documento{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class=" container-main bg-white p-4 mb-5 ">
+    <h3 class="text-center text-white p-2" style="background-color: rgb(34, 133, 86);">Actualizar Programa</h3>
+    <form class="p-3 m-2 mb-4" style="background-color: #D3D3D3;" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Nombre Programa  <strong>*</strong></label>
+        <input type="text" name="name_P" class="form-control" value="{{name_P}}">
+      </div>
+      <div class="form-group">
+        <label for="name">Siglas</label>
+        <input type="text" name="acronym_P" class="form-control" value={{acronym_P}}>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit"><i class="fa fa-user"></i> Actualizar Programa</button>
+        {% if messages %}
+        {% for message in messages %}
+        {% if messages.tags != 'success' %}
+        <div class="ml-4" style="color: black;">
+          <strong class="px-0">{{aviso}}</strong> {{message}}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <a class="btn btn-secondary ml-auto mr-4" href="{% url 'register_program' %}">Cancelar</a>
+      </div>
+    </form>
+    <div class="d-flex justify-content-between mb-3">
+    </div>
+  </div>
+</div>
+{% endblock %}

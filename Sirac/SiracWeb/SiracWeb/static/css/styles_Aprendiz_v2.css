@@ -1,0 +1,74 @@
+body {
+    background-image: url( '/static/img/gradiet2.jfif ');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-position-y: 57px;
+    background-color: #D6EAF8;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+.header-main {
+  color: #D3D3D3;
+  background-color: black;
+  display: flex;
+  padding-left: 15px;
+  width: 100%;
+  height: 57px;
+}
+
+footer {
+    font-weight: bolder; 
+    color: #D3D3D3; 
+    background-color: black; 
+    padding: 10px 0px; 
+    text-align: center;
+    align-self: flex-end;
+    width: 100%
+}
+
+a:link a:visited{
+    color: white;
+    background-color:rgb(62, 248, 124);
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid rgb(62, 248, 202);
+    text-decoration: none;
+    text-align: center;
+  }
+  a:hover a:active{
+      background-color: rgb(59, 75, 214);
+      border-color: rgb(111, 35, 173);
+  }
+
+  
+.container-main {
+    margin-top: 100px;
+}
+
+.bg-modal{
+  background-image: url('/static/img/gradiet2.jpg'); 
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+.a-caja{
+  padding: 8px 20px;
+  text-decoration: none;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
+  font-weight: bolder;
+  color: #D3D3D3;
+  display: block;
+}
+
+
+.a-caja:hover{
+  background-color: rgb(35, 35, 35);
+  color: #D3D3D3;
+  text-decoration: none;
+  border-radius: 0%;
+}

@@ -1,0 +1,105 @@
+{% extends 'Instructor/base_instructor.html' %}
+{% load static %}
+{% block title %}SIRAC - Perfil Instructor{% endblock %}
+{% block nav %}
+{% for key, esp in especialidades_t.items %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="especialidad" value={{esp.id}}>
+    <input type="hidden" name="ficha" value={{esp.ficha.number_F}}>
+    <button class="btn dropdown-item" type="submit">{{esp.ficha.number_F}}</button>
+</form>
+{% endfor %}
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-center mt-5">
+    {% if foto == "" or foto == None %}
+    <img class="mt-5" src="{% static 'img/User-nopicture.png' %}" alt="Logo-Perfil" width="150px"
+      title="Sin foto de perfil">
+    {% else %}
+    <img class="mt-5" src="../media/{{foto.Foto}}" alt="{{foto.Titulo_foto}}" width="150px"
+      title="Sin foto de perfil">
+    {% endif %}
+    <img class="mt-auto btn p-0" src="{% static 'img/add-white.png' %}" alt="añadir" data-toggle="modal"
+      data-target="#Foto-Modal" width="50px" title="Añadir Foto" style="margin-left: -40px;">
+  </div>
+  <div class="container-main p-1 mt-5 mb-5">
+    <div class="card">
+      <h6 class="card-header font-weight-normal h3"><strong>Instructor:</strong> {{first_name}} {{F_last_name}}</h6>
+      <div class="card-body">
+        <h1 class="card-title text-center my-4">Información de Usuario</h1>
+        <ul class="container list-group list-group-flush border w-75 p-0 h4 font-weight-normal"
+          style="line-height: 150%;">
+          <li class="list-group-item font-weight-normal" style="background-color: #F2F3F4;"><strong class="nowrap"><i
+                class="fas fa-user"></i> Nombre completo:</strong> {{first_name}} {{second_name}} {{F_last_name}}
+            {{S_last_name}}</li>
+          {% for key, Doc in documentos_t.items %}
+          {% if Documento_id == Doc.id %}
+          <li class="list-group-item" style="background-color: #F2F3F4;"><strong><i class="fas fa-id-card"></i> Tipo
+              de Documento:</strong>{{ Doc.name_T_Document }}</li>
+          {% endif %}
+          {% endfor %}
+          <li class="list-group-item" style="background-color: #F2F3F4;"><strong><i class="fas fa-id-card"></i> N° de
+              Documento:</strong> {{N_Documento}}</li>
+          <li class="list-group-item" style="background-color: #F2F3F4;"><strong><i class="fas fa-mobile-alt"></i> N°
+              de Celular:</strong> {{Phone_number}}</li>
+          <li class="list-group-item" style="background-color: #F2F3F4;"><strong><i class="fas fa-envelope"></i>
+              Correo Institucional:</strong><u style="color: cornflowerblue"> {{Inst_mail}}</u></li>
+        </ul>
+        <div class="d-flex justify-content-between mt-5 mb-4">
+          <div class="mx-auto">
+            <form class="d-flex" action="/modify_ins/" method="post">
+              {% csrf_token %}
+              <button class="btn btn-info text-white text-nowrap mr-2" type="submit">
+                <i class="fas fa-pen"></i>
+                Modificar Información</button>
+            </form>
+          </div>
+          {% if messages %}
+          {% for message in messages %}
+          {% if messages.tags != 'success' %}
+          <div class="ml-4" style="color: black;">
+            <strong class="px-0">{{message}}</strong>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          <div class="mx-auto">
+            <a class="btn btn-secondary text-white text-nowrap ml-2" data-toggle="modal" data-target="#Clave-Modal"><i
+                class="fas fa-lock"></i> Cambiar Contraseña</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="Foto-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+    <div class="modal-content bg-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Cambiar foto de perfil<h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="subir_foto" value="100">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="file">Adjuntar archivo: </label>
+            <input class="form-control" type="file" name="foto">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success">Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'Login/base_login.html' %}
+{% load static %}
+
+{% block title %}SIRAC - Inicio{% endblock %}
+
+{% block content %}
+<div class="container" style="width: 300px; margin-top: 60px; margin-bottom: 60px;">
+    <form action="/login/" method="post">
+        <h1 class="text-center text-success">S I R A C</h1>
+        {% csrf_token %}
+        <button class="btn btn-success btn-block" type="submit">INICIAR SESION</button>
+        <div class="row">
+            <img class="mt-5 mx-auto" src="{% static 'img/Imagen1.png' %}" alt="Logo Sena">
+        </div>
+    </form>
+</div>
+{% endblock %}

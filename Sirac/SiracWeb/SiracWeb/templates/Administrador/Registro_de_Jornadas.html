@@ -1,0 +1,136 @@
+{% extends 'Administrador/base_administrador.html' %}
+{% load static %}
+{% block title %}SIRAC - Registro de Jornadas{% endblock %}
+{% block content %}
+<div class="container">
+    <div class=" container-main bg-white p-4 mb-5 ">
+        <h3 class="text-center mb-3">Centro de Electricidad, Electronica y Telecomunicaciones - CEET</h3>
+        <h3 class="text-center text-white p-2 mb-0" style="background-color: rgb(49, 61, 61);">Registro de Jornadas
+        </h3>
+        <div class="table-responsive">
+            <table class="text-nowrap table table-bordered table-striped table-condensed table-success text-center my-0"
+                style="height: 344px;">
+                <thead>
+                    <tr>
+                        <th style="width: 4%;" class="align-middle">#</th>
+                        <th class="align-middle">Jornada</th>
+                        <th class="align-middle">Siglas</th>
+                        <th class="align-middle" colspan="2" style="width: 4%;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, Jorn in tabla.items %}
+                    <tr>
+                        <td>{{ Jorn.num }}</td>
+                        <td class="h5" style="font-family: 'Times New Roman', Times, serif;">{{ Jorn.name_J }}</td>
+                        <td class="h5" style="font-family: 'Times New Roman', Times, serif;">{{ Jorn.acronym_J }}</td>
+                        <td class="p-1 align-middle">
+                          <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group" style="display: none;">
+                              <select class="form-control" name="Editar">
+                                <option>{{Jorn.name_J}}</option>
+                              </select>
+                            </div>
+                            <button class="btn fa fa-edit fa-2x p-0 text-primary" type="submit"></button>
+                          </form>
+                        </td>
+                        <td class="p-1 align-middle">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group" style="display: none;">
+                                    <select class="form-control" name="Eliminar">
+                                        <option>{{Jorn.name_J}}</option>
+                                    </select>
+                                </div>
+                                <button class="btn fa fa-trash fa-2x p-0 text-danger" type="submit"></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="height: 100%;">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 class="mb-3 p-3" style="background-color: rgb(49, 61, 61);"></h5>
+        <div class="d-flex justify-content-between mb-4">
+            <a class="btn btn-secondary text-white" href="{% url 'home' %}">
+                <i class="btn fa fa-arrow-circle-left fa-lg p-0 text-white" aria-hidden="true"></i>
+                Volver
+            </a>
+            <button class="btn botonAñadir text-white" data-toggle="modal" data-target="#AñadirJornada-Modal">
+                <i class="btn fa fa-plus fa-lg p-0 text-white" aria-hidden="true"></i>
+                Añadir Jornada
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AñadirJornada-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 450px;">
+        <div class="modal-content bg-modal">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group" style="display: none;">
+                    <select class="form-control" name="Añadir">
+                        <option>100</option>
+                    </select>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title"><strong>Añadir nuevo registro en:</strong> Jornada</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label h4">Jornada</label>
+                        <input type="text" class="form-control" id="recipient-name" name="name_J">
+                        <label for="recipient-name" class="col-form-label h4">Siglas</label>
+                        <input type="text" class="form-control" id="recipient-name" name="acronym_J">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Guardar-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-body">
+                <h5 class="modal-title">¡Guardado con exito!</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Eliminar-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

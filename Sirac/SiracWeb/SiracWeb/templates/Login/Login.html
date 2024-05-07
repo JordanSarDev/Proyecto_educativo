@@ -1,0 +1,64 @@
+{% extends 'Login/base_login.html' %}
+{% load static %}
+
+{% block title %}SIRAC - Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-4">
+    <div class="row justify-content-center mb-4">
+        <div class="card py-3 w-50" style="background-color: rgba(255, 255, 255, 0.623); min-width: 380px;">
+            <h3 class="card-title text-center ">SENA sede Rionegro-Bogotá</h3>
+            <img src="{% static 'img/sena-sede1.jpg'%}" class="px-5 pb-3 card-img" height="340PX">
+        </div>
+    </div>
+
+    <div class="table-responsive pb-4" style="overflow-y: hidden;">
+        <div class="d-flex flex-nowrap px-4" style="margin-bottom: -25px;">
+            <div class="my-4" style="margin-right: 155px;">
+                <div class="card" style="width: 250px;">
+                    <img src="{% static 'img/avatar1.png'%}" alt="rounded image">
+
+                    <div class="card-body text-center">
+                        <form action="/login_ins/" method="post">
+                            <h3>Instructor</h3>
+                            {% csrf_token %}
+                            <button class="btn m-10 text-center" type="submit"
+                                style="background-color: rgb(148, 236, 148);">CONTINUAR</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="my-4" style="margin-right: 155px;">
+                <div class="card" style="width: 250px;">
+                    <img src="{% static 'img/avatar2.png'%}" alt="rounded image">
+
+                    <div class="card-body text-center">
+                        <form action="/login_appr/" method="post">
+                            <h3>Aprendiz</h3>
+                            {% csrf_token %}
+                            <button class="btn m-10 text-center" type="submit"
+                                style="background-color: rgb(148, 236, 148);">CONTINUAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-4">
+                <div class="card" style="width: 250px;">
+                    <img src="{% static 'img/avatar3.png'%}" alt="rounded image">
+                    <div class="card-body text-center">
+                        <form action="/login_admin/" method="post">
+                            <h3>Administrador</h3>
+                            {% csrf_token %}
+                            <button class="btn text-center" type="submit"
+                                style="background-color: rgb(148, 236, 148);">CONTINUAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

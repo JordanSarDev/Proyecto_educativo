@@ -1,0 +1,41 @@
+{% extends 'Login/base_login.html' %}
+{% load static %}
+
+{% block title %}Login - Aprendiz{% endblock %}
+
+{% block content %}
+<div class="container container-main">
+    <h6>LOGIN APRENDIZ</h6>
+    <div class="container formulario py-4">
+        <form class="px-4 py-3 text-center" method="post">
+            {% csrf_token %}
+            <h4 class="">Sistema de Información para el Registro de Asistencias del CEET </h4>
+            <div class="form-group">
+                <input type="text" class="form-control" name="N_Documento" placeholder="Número de documento">
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            {% if messages.tags != 'success' %}
+            <div style="color: rgb(243, 128, 21);">
+                <strong>{{aviso}}</strong> {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <!--
+            <div class="d-flex justify-content-between">
+                <div class="form-group">
+                    <div class="form-check text-left">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label text-white">
+                            Recuérdame
+                        </label>
+                    </div>
+                </div>
+            </div>
+            -->
+            <button class="btn btn-primary mt-3" type="submit">Ingresar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

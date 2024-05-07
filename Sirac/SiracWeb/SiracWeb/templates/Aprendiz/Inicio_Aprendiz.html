@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/styles_Aprendiz_v2.css' %}">
+  <title>SIRAC - Inicio Aprendiz</title>
+</head>
+
+<body>
+  <header class="nav navbar navbar-expand-lg fixed-top navbar-dark py-1 header-main">
+    <div class="navbar-brand h2 my-0 mr-auto pr-5 pt-0" style="color: #D3D3D3; font-size: 24px;">
+      <img style="width: 50px; margin-top: -5px;" src="{% static 'img/pp.jpg'%}">
+      SIRAC
+    </div>
+
+    <div class="dropdown position-fixed" style="right: 10px; top: 8px;">
+      <button style="color: #D3D3D3;" class="btn border-secondary dropdown-toggle" id="Perfil" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <span class="h5 pt-2 pr-2 d-sm-inline d-none">Aprendiz</span>
+        <i class="fas fa-user-circle fa-lg mr-2" aria-hidden="true"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right py-0 w-100" aria-labelledby="Perfil">
+        <div class="text-center d-block d-sm-none">
+          <h5 class="py-1">Aprendiz</h5>
+          <div class="dropdown-divider mb-0"></div>
+        </div>
+        <form action="/profile_appr/" method="post">
+          {% csrf_token %}
+          <button class="dropdown-item py-2" type="submit">Ver perfil</button>
+        </form>
+        <div class="dropdown-divider my-0"></div>
+        <form action="/logout/" method="post">
+          {% csrf_token %}
+          <button class="btn-sm dropdown-item py-2" type="submit">
+            <i class="fa fa-sign-out"></i>
+            Cerrar sesion
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="container-main  mb-4">
+      <div class="mb-2 mx-auto text-center" style="width: min-content;">
+        <i class="fa fa-user-circle fa-3x fa-lg" aria-hidden="true"></i>
+        <h5 class="py-2 mx-3">BIENVENIDO</h5>
+      </div>
+      <div class="alert" style="background-color: rgb(176, 210, 238); color: darkblue;">
+        <strong>Ha iniciado sesion como:</strong> {{first_name}} {{F_last_name}}
+      </div>
+      <div class="container">
+        {% for key, esp in especialidades_t.items %}
+        <div class="card mb-4">
+          <div class="card-body h4 d-flex justify-content-between align-items-top">
+            <div>
+              <h4 class="card-title">{{esp.name_E}}</h4>
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="especialidad" value={{esp.id}}>
+                <button class="btn btn-outline-success" type="submit">Ver asistencia</button>
+              </form>
+            </div>
+            <!--<span class="badge badge-success h-25" title="Tienes (1) nueva notificación">1</span>-->
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <footer>Servicio Nacional de Aprendizaje - SENA<br>ADSI-III</footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+
+<script src="https://kit.fontawesome.com/27cc045a7b.js" crossorigin="anonymous"></script>
+
+</html>

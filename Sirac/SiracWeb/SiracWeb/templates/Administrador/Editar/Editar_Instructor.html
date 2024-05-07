@@ -1,0 +1,79 @@
+{% extends 'Administrador/base_administrador.html' %}
+{% load static %}
+
+{% block title %}SIRAC - Editar Instructor{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class=" container-main bg-white p-4 mb-5 ">
+    <h3 class="text-center text-white p-2" style="background-color: rgb(34, 133, 86);">Actualizar datos de Instructor
+    </h3>
+    <form class="p-3 m-2 mb-4" style="background-color: #D3D3D3;" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="name">Primer Nombre <strong>*</strong></label>
+        <input type="text" name="first_name" class="form-control" value={{first_name}}>
+      </div>
+      <div class="form-group">
+        <label for="name">Segundo Nombre </label>
+        <input type="text" name="second_name" class="form-control" value={{second_name}}>
+      </div>
+      <div class="form-group">
+        <label for="name">Primer Apellido <strong>*</strong></label>
+        <input type="text" name="F_last_name" class="form-control" value={{F_last_name}}>
+      </div>
+      <div class="form-group">
+        <label for="name">Segundo Apellido </label>
+        <input type="text" name="S_last_name" class="form-control" value={{S_last_name}}>
+      </div>
+      <div class="form-group">
+        <label for="name">Numero de Celular <strong>*</strong></label>
+        <input type="text" name="Phone_number" class="form-control" value={{Phone_number}}>
+      </div>
+      <div class="form-group">
+        <label for="gender">Tipo de Documento: <strong>*</strong></label>
+        <select class="form-control" id="gender" name="Documento">
+          {% for key, Doc in documentos_t.items %}
+          {% if ins.Documento_id == Doc.id %}
+          <option value={{Doc.id}} selected="selected">{{ Doc.name_T_Document }}</option>
+          {% else %}
+          <option value={{Doc.id}}>{{ Doc.name_T_Document }}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="name">Número de Documento <strong>*</strong></label>
+        <input type="text" name="N_Documento" class="form-control" value={{N_Documento}} disabled>
+      </div>
+      <div class="form-group">
+        <label for="name">Correo Institucional <strong>*</strong></label>
+        <input type="text" name="Inst_mail" class="form-control" value={{Inst_mail}}>
+      </div>
+      <div class="form-group">
+        <label for="name">Correo Personal</label>
+        <input type="text" name="Person_mail" class="form-control" value={{Person_mail}}>
+      </div>
+      <div class="form-group">
+        <label>Fecha de Nacimiento</label>
+        <input type="date" name="Date" max="2150-12-31" min="1890-01-01" class="form-control">
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-primary" type="submit"><i class="fa fa-user"></i> Actualizar Instructor</button>
+        {% if messages %}
+        {% for message in messages %}
+        {% if messages.tags != 'success' %}
+        <div class="ml-4" style="color: black;">
+          <strong class="px-0">{{aviso}}</strong> {{message}}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <a class="btn btn-secondary ml-auto mr-4" href="{% url 'register_ins' %}">Cancelar</a>
+      </div>
+    </form>
+    <div class="d-flex justify-content-between mb-3">
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'Instructor/base_instructor.html' %}
+{% load static %}
+{% block title %}SIRAC - Registrar asistencia{% endblock %}
+{% block nav %}
+{% for key, esp in especialidades_t.items %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="especialidad" value={{esp.id}}>
+    <input type="hidden" name="ficha" value="{{esp.ficha.number_F}}">
+    <button class="btn dropdown-item" type="submit">{{esp.ficha.number_F}}</button>
+</form>
+{% endfor %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="container-main p-3 bg-white  mb-5">
+        <div class="d-flex justify-content-between">
+            <h3 style="max-width: 40%;">Ficha N°: {{ficha.number_F}}</h3>
+            <h3 class="mb-5">{{fecha.texto}}</h3>
+        </div>
+        <h3 class="text-center text-white p-2 mb-0" style="background-color: rgb(49, 61, 61);">
+            {{ficha.especialidad.name_E}}</h3>
+        <div class="table-responsive">
+            <table class="text-nowrap table table-bordered table-striped table-condensed table-success text-center my-0"
+                style="height: 344px;">
+                <thead>
+                    <tr>
+                        <th style="width: 4%;">#</th>
+                        <th class="align-middle">Nombre Aprendiz</th>
+                        <th class="align-middle">Observaciones</th>
+                        <th class="align-middle" style="width: 10%;" class="text-center">Estado
+                            Asistencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, appr in tabla.items %}
+                    <tr>
+                        <form method="post">
+                            {% csrf_token %}
+                            <td class="align-middle">{{ appr.num }}</td>
+                            <td class="align-middle">{{appr.first_name}} {{appr.second_name}} {{appr.F_last_name}}
+                                {{appr.S_last_name}}</td>
+                            <td class="input p-0 m-0">
+                                <input class="w-100 h-100 border-0 text-center" style="background-color: #00000000;"
+                                    type="text" name="Notes" placeholder="Sin Observaciones" value="{{appr.asis.Notes}}">
+                            </td>
+                            <td class="p-1 align-middle">
+                                <input type="hidden" name="Aprendiz_id" value={{appr.id}}>
+                                <select class="border-0" onchange="this.form.submit()" name="estado" size="2" style="
+                                overflow: hidden; background-color: #00000000;">
+                                    <optgroup class="px-2 mx-2" style="display: table-cell;">
+                                        {% if appr.asis.Estado_Asistencia_id == 1 %}
+                                        <option class="btn btn-primary fa fa-check fa-lg border-0" value="1"></option>
+                                        {% else %}
+                                        <option class="btn fa fa-check fa-lg border-0"
+                                            style="background-color: #00000050;" value="1">
+                                        </option>
+                                        {% endif %}
+                                    </optgroup>
+                                    <optgroup class="px-2 mx-2" style="display: table-cell;">
+                                        {% if appr.asis.Estado_Asistencia_id == 2 %}
+                                        <option class="btn btn-danger fa fa-times fa-lg border-0" value="2"></option>
+                                        {% else %}
+                                        <option class="btn fa fa-times fa-lg border-0"
+                                            style="background-color: #00000050;" value="2">
+                                        </option>
+                                        {% endif %}
+                                    </optgroup>
+                                    <optgroup class="px-2 mx-2" style="display: table-cell;">
+                                        {% if appr.asis.Estado_Asistencia_id == 3 %}
+                                        <option class="btn btn-success fa fa-exclamation fa-lg border-0" value="3">
+                                            Excusa</option>
+                                        {% else %}
+                                        <option class="btn fa fa-exclamation fa-lg border-0" 
+                                            style="background-color: #00000050;" value="3">
+                                            Excusa</option>
+                                        {% endif %}
+                                    </optgroup>
+                                </select>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                    <tr style="height: 100%;"></tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 class="mb-3 p-3" style="background-color: rgb(49, 61, 61);"></h5>
+        <div class="d-flex justify-content-between mb-4">
+            <a class="btn btn-secondary text-white" href="{% url 'home_ins' %}">
+                <i class="btn fa fa-arrow-circle-left fa-lg p-0 text-white" aria-hidden="true"></i>
+                Volver
+            </a>
+            <a class="btn botonGuardar text-white text-nowrap ml-2" data-toggle="modal" data-target="#Guardar-Modal">
+                <i class="btn fas fa-save fa-lg p-0 text-white" aria-hidden="true"></i>
+                Guardar Asistencia</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Guardar-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-body">
+                <h5 class="modal-title">Guardado con exito!!</h5>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" href="{% url 'register_assis' %}">
+                    Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Cancelar-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancelar Asistencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de cancelar la operacion?<br>
+                No se guardara la asistencia registrada hasta el momento
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form action="/home/" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit">Continuar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Adjuntar-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccionar Excusa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <select class="custom-select" id="inputGroupSelect01">
+                        <option selected>..</option>
+                        <option value="1">Excusa pendiente</option>
+                        <option value="2">Cita_Medica_12-03-2021.pdf</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'Administrador/base_administrador.html' %}
+{% load static %}
+
+{% block title %}SIRAC - Listado de Aprendices{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="container-main bg-white p-4 mb-5">
+    <div class="d-flex justify-content-between mb-4">
+      <h3 style="max-width: 40%;">Ficha N°: {{ ficha.number_F }}</h3>
+      <h3 style="max-width: 40%; text-align: center;">{{ ficha.programa }}</h3>
+      <form action="/specialties/" method="post">
+        {% csrf_token %}
+        <button class="btn btn-dark" style="height: min-content;">Especialidades<br>Asociadas</button>
+      </form>
+    </div>
+    <h3 class="text-center text-white p-2 mb-0" style="background-color: rgb(49, 61, 61);">Listado de Aprendices
+    </h3>
+    <div class="table-responsive">
+      <table class="text-nowrap table table-bordered table-striped table-condensed table-success text-center my-0"
+        style="height: 344px;">
+        <thead>
+          <tr>
+            <th style="width: 4%;" class="align-middle">#</th>
+            <th class="align-middle">Primer Apellido</th>
+            <th class="align-middle">Segundo Apellido</th>
+            <th class="align-middle">Primer Nombre</th>
+            <th class="align-middle">Segundo Nombre</th>
+            <th class="align-middle">N° Documento</th>
+            <th class="align-middle">Tipo Documento</th>
+            <th class="align-middle">N° Celular</th>
+            <th class="align-middle">Correo Personal</th>
+            <th class="align-middle">Correo Misena</th>
+            <th class="align-middle" colspan="2" style="width: 4%;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for key, appr in tabla.items %}
+          <tr>
+            <td>{{ appr.num }}</td>
+            <td>{{ appr.F_last_name }}</td>
+            <td>{{ appr.S_last_name }}</td>
+            <td>{{ appr.first_name }}</td>
+            <td>{{ appr.second_name }}</td>
+            <td>{{ appr.N_Documento }}</td>
+            <td class="p-0"><select class="form-control m-0" style="height: 100%; background-color: #1b4f7200;"
+                id="gender" name="Documento" disabled>
+                {% if appr.Documento_id == 1 %}
+                <option value="1" selected="selected">Cédula de Ciudadania</option>
+                <option value="5">Tarjeta de Identidad</option>
+                {% elif appr.Documento_id == 5 %}
+                <option value="1">Cédula de Ciudadania</option>
+                <option value="5" selected="selected">Tarjeta de Identidad</option>
+                {% endif %}
+              </select>
+            </td>
+            <td>{{ appr.Phone_number }}</td>
+            <td>{{ appr.Person_mail }}</td>
+            <td>{{ appr.Inst_mail }}</td>
+            <td class="p-1 align-middle">
+              <form method="post">
+                {% csrf_token %}
+                <div class="form-group" style="display: none;">
+                  <select class="form-control" name="Editar">
+                    <option>{{appr.N_Documento}}</option>
+                  </select>
+                </div>
+                <button class="btn fa fa-edit fa-2x p-0 text-primary" type="submit"></button>
+              </form>
+            </td>
+            <td class="p-1 align-middle">
+              <form method="post">
+                {% csrf_token %}
+                <div class="form-group" style="display: none;">
+                  <select class="form-control" name="Eliminar">
+                    <option>{{appr.N_Documento}}</option>
+                  </select>
+                </div>
+                <button class="btn fa fa-trash fa-2x p-0 text-danger" type="submit"></button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+          <tr style="height: 100%;">
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h5 class="mb-3 p-3" style="background-color: rgb(49, 61, 61);"></h5>
+    <div class="d-flex justify-content-between mb-4">
+      <a class="btn btn-secondary text-white" href="{% url 'home' %}">
+        <i class="btn fa fa-arrow-circle-left fa-lg p-0 text-white" aria-hidden="true"></i>
+        Volver
+      </a>
+      <form action="/register_appr/" method="post">
+        {% csrf_token %}
+        <button class="btn botonAñadir text-white">
+          <i class="btn fa fa-plus fa-lg p-0 text-white" aria-hidden="true"></i>
+          Añadir Aprendiz
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

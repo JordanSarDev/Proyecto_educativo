@@ -1,0 +1,146 @@
+{% extends 'Aprendiz/base_aprendiz.html' %}
+{% load static %}
+{% block title %}SIRAC - Asistencia{% endblock %}
+{% block nav %}
+{% for key, esp in especialidades_t.items %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="especialidad" value={{esp.id}}>
+    <button class="btn dropdown-item" type="submit">{{esp.name_E}}</button>
+</form>
+{% endfor %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class=" container-main bg-white p-4  mb-5">
+        <div class="d-flex justify-content-between mb-4">
+            <h3 style="max-width: 40%;">Instructor: {{instructor.first_name}} {{instructor.F_last_name}}</h3>
+            <div class="dropdown">
+                <div class="h4">Seleccione mes: <br>
+                    <div class="input-group mt-1">
+                        <form method="post">
+                            {% csrf_token %}
+                            <select class="custom-select" onchange="this.form.submit()" name="mes_seleccionado">
+                                <option value="0">Mostrar todo</option>
+                                {% for mes, valor in meses.items %}
+                                    {% if valor == mes_seleccionado %}
+                                        <option value={{valor}} selected>{{mes}}</option>y
+                                    {% else %}
+                                        <option value={{valor}}>{{mes}}</option>y
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="text-center text-white p-2 mb-0" style="background-color: rgb(49, 61, 61);">{{especialidad.name_E}}</h3>
+        <div class="table-responsive">
+            <table class="text-nowrap table table-bordered table-striped table-condensed table-success text-center my-0"
+                style="height: 344px;">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Fecha</th>
+                        <th style="width: 45%;">Estado Asistencia</th>
+                        <th style="width: 45%;" class="text-left">Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, asis in asistencias_t.items %}
+                    {% if asis.fecha.mes == mes_seleccionado or mes_seleccionado == "0" %}
+                    <tr>
+                        <td>{{asis.fecha.dia}}/{{asis.fecha.mes}}/{{asis.fecha.año}}</td>
+                        {% for key, est in estados_t.items %}
+                        {% if asis.Estado_Asistencia_id == est.id %}
+                        <td>{{est.name_E_Asis}}</td>
+                        {% endif %}
+                        {% endfor %}
+                        {% if asis.Notes == "" %}
+                        <td class="text-left">Sin Observaciones</td>
+                        {% else %}
+                        <td class="text-left">{{asis.Notes}}</td>
+                        {% endif %}
+                        {% if asis.Estado_Asistencia_id == 3 %}
+                        {% if asis.excusa == "" %}
+                        <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="asistencia" value={{asis.id}}>
+                            <button class="btn btn-primary text-white" type="submit">
+                            Subir excusa</button>
+                        </form>
+                        </td>
+                        {% else %}
+                        <td>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="excusa" value="media/{{asis.excusa}}">
+                            <button class="btn p-0 fa fa-file-alt fa-lg text-primary" type="submit" title="Excusa adjunta"></button>
+                        </form>
+                        </td>
+                        {% endif %}
+                        {% else %}
+                        <td>-</td>
+                        {% endif %}
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    <tr style="height: 100%;">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5 class="mb-3 p-3" style="background-color: rgb(49, 61, 61);"></h5>
+    </div>
+</div>
+
+<div class="modal fade" id="Pdf-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Cita_Medica_12-03-2021.pdf</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Fecha de subida: 12-03-2021
+                <img class="w-100 mt-2" src="{% static 'img/Excusa_medica.png'%}" alt="Excusa Medica">
+                <h6 class="mb-3 p-2 bg-dark text-white">Vista previa</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-success"> <i class="fa fa-arrow-circle-down"></i> Descargar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AdjuntarPdf-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Presentar Excusa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5><strong>Fecha:</strong> 19-01-2020</h5>
+                <div class="form-group">
+                    <label for="file">Adjuntar archivo: </label>
+                    <input type="file" class="form-control pb-4" id="file">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

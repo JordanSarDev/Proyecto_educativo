@@ -1,0 +1,60 @@
+body {
+    background-image: url( '/static/img/fondoInicio.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-color: #1B4F72;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+}
+
+header {
+    font-weight: bolder;
+    color: #D3D3D3;
+    background-color: black;
+    align-self: flex-start;
+    width: 100%;
+}
+
+footer {
+    font-weight: bolder; 
+    color: #D3D3D3; 
+    background-color: black; 
+    padding: 10px 0px; 
+    text-align: center;
+    align-self: flex-end;
+    width: 100%;
+}
+
+.container-main {
+    width: 450px; 
+    min-height: 70vh;
+    margin-bottom: 70px;
+}
+
+.container-main h6 {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-style: italic;
+    color: #D3D3D3;
+}
+
+.container-main h4 {
+    margin-bottom: 50px;
+    text-align: center;
+    font-style: italic;
+    color: beige;
+}
+
+.formulario {
+    background-color: rgba(20, 54, 90, 0.923); 
+    border-radius: 3%;
+}
+
+.botonLogin {
+    background-color: rgb(197, 62, 231);
+    color: black;
+}
+

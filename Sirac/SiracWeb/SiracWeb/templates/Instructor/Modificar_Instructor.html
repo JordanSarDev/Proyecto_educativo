@@ -1,0 +1,103 @@
+{% extends 'Instructor/base_instructor.html' %}
+{% load static %}
+{% block title %}SIRAC - Modificar Instructor{% endblock %}
+{% block nav %}
+{% for key, esp in especialidades_t.items %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="especialidad" value={{esp.id}}>
+    <input type="hidden" name="ficha" value={{esp.ficha.number_F}}>
+    <button class="btn dropdown-item" type="submit">{{esp.ficha.number_F}}</button>
+</form>
+{% endfor %}
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="container-main p-1 mb-5">
+    <div class="card">
+      <h6 class="card-header">* Solo podra modificar las casillas que no esten opacas.</h6>
+      <form method="post">
+        {% csrf_token %}
+        <div class="card-body">
+          <h3 class="card-title text-center my-4">Datos Personales</h3>
+          <div class="row row-cols-md-2 row-cols-1 mt-5">
+            <div class="col">
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Primer Apellido:</h5>
+                  <input type="text" class="form-control" placeholder={{F_last_name}}>
+                </div>
+              </fieldset>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Segundo Apellido:</h5>
+                  <input type="text" class="form-control" placeholder={{S_last_name}}>
+                </div>
+              </fieldset>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Primer Nombre:</h5>
+                  <input type="text" class="form-control" placeholder={{first_name}}>
+                </div>
+              </fieldset>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Segundo Nombre:</h5>
+                  <input type="text" class="form-control" placeholder={{second_name}}>
+                </div>
+              </fieldset>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Numero de Documento</h5>
+                  <input type="text" class="form-control" placeholder={{N_Documento}}>
+                </div>
+              </fieldset>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Tipo de Documento</h5>
+                  {% for key, Doc in documentos_t.items %}
+                  {% if Documento_id == Doc.id %}
+                  <input type="text" class="form-control" placeholder="{{Doc.name_T_Document}}">
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </fieldset>
+            </div>
+            <div class="col">
+              <div class="form-group mb-3">
+                <h5 class="mr-2">Numero de Celular:</h5>
+                <input type="text" class="form-control" name="Phone_number" value="{{Phone_number}}">
+              </div>
+              <div class="form-group mb-3">
+                <h5 class="mr-2">Telefono:</h5>
+                <input type="text" class="form-control" name="Tel_number" value={{Tel_number}}>
+              </div>
+              <div class="form-group mb-3">
+                <h5 class="mr-2">Correo personal:</h5>
+                <input type="text" name="Person_mail" class="form-control" value="{{Person_mail}}">
+              </div>
+              <fieldset disabled="disabled">
+                <div class="form-group mb-3">
+                  <h5 class="mr-2">Correo institucional:</h5>
+                  <input type="text" class="form-control" placeholder={{Inst_mail}}>
+                </div>
+              </fieldset>
+              <div class="form-group mb-3">
+                <h5 class="mr-2">Fecha de nacimiento:</h5>
+                <input type="date" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="Aceptar" value="Si">
+        <div class="card-footer text-right">
+          <button class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i>
+            Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

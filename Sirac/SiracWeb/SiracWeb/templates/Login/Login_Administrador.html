@@ -1,0 +1,80 @@
+{% extends 'Login/base_login.html' %}
+{% load static %}
+
+{% block title %}Login - Administrador{% endblock %}
+
+{% block content %}
+<div class="container container-main">
+    <h6>LOGIN ADMINISTRADOR</h6>
+    <div class="container formulario py-4">
+        <form class="px-4 py-3 text-center" method="POST">
+            {% csrf_token %}
+            <h4>Sistema de Información para el Registro de Asistencias del CEET </h4>
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" placeholder="Nombre de usuario">
+            </div>
+            <div class="input-group mx-auto mb-2">
+                <input type="password" name="password" class="form-control border-right-0"
+                    placeholder="Clave de acceso">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white border-left-0"><i class="fas fa-lock"></i></span>
+                </div>
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            {% if messages.tags != 'success' %}
+            <div style="color: rgb(243, 128, 21);">
+                <strong>{{aviso}}</strong> {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <!--
+            <div class="d-flex justify-content-between my-2">
+                <div class="form-group">
+                    <div class="form-check text-left my-2">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label text-white">
+                            Recuérdame
+                        </label>
+                    </div>
+                </div>
+                <a class="btn text-info" data-toggle="modal" data-target="#Contraseña-Modal">Recuperar clave</a>
+            </div>
+            -->
+            <button type="submit" class="btn btn-primary mt-3">Ingresar</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Contraseña-Modal" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 400px;">
+        <div class="modal-content bg-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">Recuperar clave de acceso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>Te enviaremos un correo con instrucciones para restablecer la clave de acceso al correo registrado
+                    como Admisnistrador</span>
+                <div class="input-group mx-auto my-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    </div>
+                    <input type="password" class="form-control border-right-0" placeholder="********.edu.co" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text border-left-0"><i class="fa fa-lock"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Restablecer Clave de acceso</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
